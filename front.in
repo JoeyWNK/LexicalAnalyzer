@@ -1,0 +1,5 @@
+(sum + 47) / total;
+int i = j * 10;
+while (i<10){
+    printf("done!");
+}
