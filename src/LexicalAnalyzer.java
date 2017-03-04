@@ -67,13 +67,15 @@ public class LexicalAnalyzer {
 			lookup(nextChar);
 			getChar();
 		}
-		out.println(String.format("Next token is: %s, Next lexeme is %s", nextToken, getStr(lexeme)));
+		out.println(String.format("Next token is: %s, Next lexeme is %s", nextToken.getValue(), getStr(lexeme)));
+		// out.println(String.format("Next token is: %s, Next lexeme is %s",
+		// nextToken, getStr(lexeme)));
 		return nextToken;
 	}
 
 	private String getStr(char[] lexeme) {
 		int count = 0;
-		while ((int)lexeme[count] != 0 && count < LEXEME_MAX)
+		while ((int) lexeme[count] != 0 && count < LEXEME_MAX)
 			count++;
 		return String.valueOf(lexeme, 0, count);
 	}
@@ -128,6 +130,23 @@ public class LexicalAnalyzer {
 		case '<':
 			addChar();
 			nextToken = Token.COMP_OP_SMALL;
+			break;
+
+		case '"':
+			addChar();
+			nextToken = Token.QUOT_MARK_DOU;
+			break;
+			// TODO String detection
+		case '!':
+			addChar();
+			nextToken = Token.EXCLAMATION;
+			break;
+
+		default:
+			addChar();
+			nextToken = Token.UNKNOWN;
+			break;
+
 		}
 		return nextToken;
 	}
@@ -141,6 +160,7 @@ public class LexicalAnalyzer {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void getNonBlank() {
 		while (Character.isSpace(nextChar))
 			getChar();
@@ -168,8 +188,9 @@ public class LexicalAnalyzer {
 }
 
 enum Token {
-	INT_LIT(10), IDENT(11), ASSIGN_OP(20), ADD_OP(21), SUB_OP(22), MULT_OP(23), DIV_OP(24), LEFT_PAREN(25), RIGHT_PAREN(
-			26), SEMI_COLUMN(27), COMP_OP_SMALL(28), COMP_OP_LARGE(29), COMP_OP_EQUAL(30);
+	UNKNOWN(-1), INT_LIT(10), IDENT(11), ASSIGN_OP(20), ADD_OP(21), SUB_OP(22), MULT_OP(23), DIV_OP(24), 
+	LEFT_PAREN(25), RIGHT_PAREN(26), SEMI_COLUMN(27), COMP_OP_SMALL(28), COMP_OP_LARGE(29), 
+	COMP_OP_EQUAL(30), QUOT_MARK_DOU(31), EXCLAMATION(32);
 	private final int value;
 
 	private Token(int value) {
